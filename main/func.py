@@ -65,3 +65,4 @@ def finish_info(operation):
     source_to = hide_and_split(operation.get('to'))
     amount_currency = amount_and_currency(operation)
     return f"{date} {desc}\n{source_from} -> {source_to}\n{amount_currency}\n"
+
