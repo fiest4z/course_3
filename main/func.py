@@ -9,8 +9,8 @@ def import_operations():
 
 
 def convert_time():
-    pass
+
 
 
 def five_last_operations():
-    pass
+
