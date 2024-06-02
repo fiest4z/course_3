@@ -52,3 +52,12 @@ def amount_and_currency(operation):
     amount = operation['operationAmount']['amount']
     currency = operation['operationAmount']['currency']['name']
     return f"{amount} {currency}"
+
+
+def finish_info(operation):
+    date = formated_date(operation.get('date'))
+    desc = operation.get('description')
+    source_from = hide_and_split(operation.get('from'))
+    source_to = hide_and_split(operation.get('to'))
+    amount_currency = amount_and_currency(operation)
+    return f"{date} {desc}\n{source_from} -> {source_to}\n{amount_currency}\n"
