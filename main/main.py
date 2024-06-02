@@ -2,9 +2,9 @@ import func
 
 
 def main():
-    operations_list = func.import_operations()
-    last_five_operations = func.five_last_operations(operations_list)
-    sorted_operations = func.sorting_by_data(last_five_operations)
+    list_operations = func.import_operations()
+    five_operations = func.five_last_operations(list_operations)
+    sorted_operations = func.sorting_by_data(five_operations)
     for operations in sorted_operations:
         if operations.get('from') is not None:
             hidden_number_from = func.hide_and_split(operations['from'])
@@ -17,5 +17,5 @@ def main():
                   f"**** -> {hidden_number_to}\n"
                   f"{operations['operationAmount']['amount']} {operations['operationAmount']['currency']['name']}\n")
 
-
 main()
+

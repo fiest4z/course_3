@@ -10,30 +10,45 @@ def import_operations():
         operations = json.load(file)
         return operations
 
+
 def five_last_operations(operations):
     """
     Последние 5 операций
     """
-    sorted_operations = sorted(operations, key=lambda x: x.get('date', '0'))
-    last_five = sorted_operations[:6]
+    last_five = sorted(operations, key=lambda x: x['date'], reverse=True)[:5]
     return last_five
 
-def sorting_by_data(last_five):
-    del last_five[0]
-    for x in last_five:
-        x['date'] = datetime.fromisoformat(x['date']).strftime('%d.%m.%Y')
-    return last_five
 
-def hide_and_split(card):
-    card_number = card.split()[-1]
-    if len(card_number) == 16:
-        hidden_number = card_number[:6] + (len(card_number[6:-4]) * '*') + card_number[-4:]
-        parts, part_size = len(hidden_number), len(hidden_number) // 4
-        closed_number = f"{card[:-len(card_number)]} {' '.join([hidden_number[i:i + part_size] for i in range(0, parts, part_size)])}"
+def formated_date(dt):
+    return dt.strftime('%d.%m.%Y')
+
+
+def update_operations(operations):
+    new_operations = []
+    for elem in operations:
+        if elem and elem.get('date') is not None and elem.get('state') == "EXECUTED":
+            elem['date'] = datetime.fromisoformat(elem['date'])
+    return new_operations
+
+
+def hide_and_split(bank):
+    def hidden_account():
+        account_number = '**' + numb[-4:]
+        return account_number
+
+    def hidden_card():
+        card_number = numb[:6] + ('*' * 6) + numb[-4:]
+        card_number = ' '.join(card_number[i * 4:(i + 1) * 4] for i in range(4))
+        return card_number
+
+    *name, numb = bank.split()
+    if ' '.join(name) == "Счет":
+        return f"Счет {hidden_account()}"
     else:
-        hidden_number = f"{card[:len(card_number)]}{('**' + (card_number[-4:]))}"
-    return hidden_number
+        return f"{' '.join(name)} {hidden_card()}"
 
 
-
-
+def amount_and_currency(operation):
+    amount = operation['operationAmount']['amount']
+    currency = operation['operationAmount']['currency']['name']
+    return f"{amount} {currency}"
