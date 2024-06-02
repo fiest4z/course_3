@@ -28,6 +28,7 @@ def update_operations(operations):
     for elem in operations:
         if elem and elem.get('date') is not None and elem.get('state') == "EXECUTED":
             elem['date'] = datetime.fromisoformat(elem['date'])
+            new_operations.append(elem)
     return new_operations
 
 
@@ -41,6 +42,9 @@ def hide_and_split(bank):
         card_number = ' '.join(card_number[i * 4:(i + 1) * 4] for i in range(4))
         return card_number
 
+    if bank is None:
+        return 'Unknown'
+
     *name, numb = bank.split()
     if ' '.join(name) == "Счет":
         return f"Счет {hidden_account()}"
@@ -52,3 +56,12 @@ def amount_and_currency(operation):
     amount = operation['operationAmount']['amount']
     currency = operation['operationAmount']['currency']['name']
     return f"{amount} {currency}"
+
+
+def finish_info(operation):
+    date = formated_date(operation.get('date'))
+    desc = operation.get('description')
+    source_from = hide_and_split(operation.get('from'))
+    source_to = hide_and_split(operation.get('to'))
+    amount_currency = amount_and_currency(operation)
+    return f"{date} {desc}\n{source_from} -> {source_to}\n{amount_currency}\n"
