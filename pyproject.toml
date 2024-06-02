@@ -2,7 +2,7 @@
 name = "course-3-poetry"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Mikhail Belyaev <fiest4z@mail.ru>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
